@@ -11,13 +11,13 @@ Avis
 </title>
 </head>
 <body>
-<h1>Bonjour, <?php echo $_GET['name'] ?></h1>
-<h2>Votre message est : <?php echo $_GET['MS'] ?></h2>
-<h2>Votre adresse email est : <?php echo $_GET['email'] ?></h2>
+<h1>Bonjour, <?php echo $_POST['name'] ?></h1>
+<h2>Votre message est : <?php echo $_POST['MS'] ?></h2>
+<h2>Votre adresse email est : <?php echo $_POST['email'] ?></h2>
 <?php
-$n = $_GET['name'];
-$a = $_GET['MS'];
-$m = $_GET['email'];
+$n = $_POST['name'];
+$a = $_POST['MS'];
+$m = $_POST['email'];
 ?>
 Votre prenom est stocké dans la variable $n
 dont le type est <?php echo gettype($n) ?>
@@ -44,7 +44,6 @@ echo $m;
 $db->exec("CREATE TABLE contact(id INTEGER PRIMARY KEY, nom TEXT,prenom INT, ms TEXT");
 $db->exec("INSERT INTO contact(nom, email, ms) VALUES($n,$a,$m)");
 
-$db->commit();
 ?>
 </body>
 </html>
