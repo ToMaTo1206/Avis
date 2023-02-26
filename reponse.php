@@ -11,39 +11,21 @@ Avis
 </title>
 </head>
 <body>
-<h1>Bonjour, <?php echo $_POST['name'] ?></h1>
-<h2>Votre message est : <?php echo $_POST['MS'] ?></h2>
-<h2>Votre adresse email est : <?php echo $_POST['email'] ?></h2>
-<?php
-$n = $_POST['name'];
-$a = $_POST['MS'];
-$m = $_POST['email'];
-?>
-Votre prenom est stocké dans la variable $n
-dont le type est <?php echo gettype($n) ?>
-Votre message est stocké dans la variable <b>$a</b>
-<br/> dont le type est <i><?php echo gettype($a); ?></i>
-<br/> On peut la transformer en <i>integer</i> en faisant :
-<?php settype($a,"integer"); ?>
-<br/>
-Type de $a :<?php echo gettype($a); ?>
-<?php 
-$ver = SQLite3::version();
-echo $ver['versionString'] . "\n";
-echo $ver['versionNumber'] . "\n";
-var_dump($ver);
+    <?php
+    if (isset($_POST['message'])) {
+        $entete  = 'MIME-Version: 1.0' . "\r\n";
+        $entete .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+        $entete .= 'From: webmaster@monsite.fr' . "\r\n";
+        $entete .= 'Reply-to: ' . $_POST['email'];
 
-$db = new SQLite3('donnees.db');
-$version = $db->querySingle("SELECT SQLITE_VERSION()");
-echo $version . "\n";
-echo $n;
-echo $a;
-echo $m;
+        $message = '<h1>Message envoyé depuis la page Contact !</h1>
+        <p><b>Email : </b>' . $_POST['email'] . '<br>
+        <b>Message : </b>' . htmlspecialchars($_POST['message']) . '</p>';
 
-
-$db->exec("CREATE TABLE contact(id INTEGER PRIMARY KEY, nom TEXT,prenom INT, ms TEXT");
-$db->exec("INSERT INTO contact(nom, email, ms) VALUES($n,$a,$m)");
-
-?>
+        $retour = mail('thom84.1206@gmail.com', 'Envoi depuis page Contact', $message, $entete);
+        if($retour)
+            echo '<p>Votre message a bien été envoyé.</p>';
+    }
+    ?>
 </body>
 </html>
